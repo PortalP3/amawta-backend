@@ -22,7 +22,7 @@ jobs:
 
     steps:
       - checkout:
-        path: ~/amawta-backend
+          path: ~/amawta-backend
 
       # Download and cache dependencies
       - restore_cache:
