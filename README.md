@@ -10,10 +10,10 @@
 ## Stack
 - Docker
 - Java 1.8
-- Spring Boot
-- MySQL
-- Nginx
-- Maven
+- Spring Boot 1.5.8
+- PostgreSQL 10.4
+- Nginx 1.13
+- Maven 3.5.4
 - Makefile
 
 ## Ejecutar
@@ -26,5 +26,6 @@
 - Se puede ejecutar utilizando el Makefile, situado en la carpeta raiz del proyecto, usar `make test`
 - Si no se ocupa el Makefile, entonces en la terminal, situado en la carpeta raiz del proyecto, utilizar `docker-compose run app mvn clean test`
 
-## TODO
-- Cambiar motor de BD de MySQL a PostgreSQL
+## Limpiar contenedores
+- make docker-kill
+- make docker-rm
