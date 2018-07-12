@@ -39,5 +39,7 @@ jobs:
           key: app-{{ checksum "pom.xml" }}
 
       # run tests!
-      - run: mvn integration-test
+      - run:
+          name: Run test
+          command: cd app && mvn compile && mvn test
 
