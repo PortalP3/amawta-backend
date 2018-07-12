@@ -10,15 +10,16 @@ services:
    volumes:
    - ./nginx/conf.d:/etc/nginx/conf.d
  
-  database:
-   container_name: mysql
-   image: mysql/mysql-server:5.7
+  db:
+   image: postgres:10.4
    environment:
-    MYSQL_DATABASE: amawta
-    MYSQL_ROOT_PASSWORD: amawta
-    MYSQL_ROOT_HOST: '%'
+     POSTGRES_PASSWORD: amawta
+     POSTGRES_USER: amawta
+     POSTGRES_DB: amawta
    ports:
-   - "3306:3306"
+   - "5432:5432"
+   volumes:
+      - ./postgres-data:/var/lib/postgresql/data
    restart: always
   
   app:
@@ -33,5 +34,5 @@ services:
     command: mvn clean spring-boot:run
     depends_on:
       - nginx
-      - database
+      - db
     restart: always
