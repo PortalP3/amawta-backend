@@ -39,5 +39,5 @@ jobs:
           key: app-{{ checksum "pom.xml" }}
 
       # run tests!
-      - run: mvn integration-test
+      - run: docker-compose run app mvn clean test
 
