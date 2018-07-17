@@ -5,7 +5,7 @@
     <title>Amawta</title>
 </head>
 <body>
-    <h1>Amawta Backend it works!</h1>
+    <h1>El backend de Amawta funciona!</h1>
     <p></p>
 </body>
 </html>
