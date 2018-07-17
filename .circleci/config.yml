@@ -14,7 +14,7 @@ jobs:
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # - image: circleci/postgres:9.4
 
-    working_directory: ~/amawta-backend/app
+    working_directory: ~/amawta-backend
 
     environment:
       # Customize the JVM maximum heap limit
@@ -28,6 +28,8 @@ jobs:
       - restore_cache:
           keys:
           - {{ checksum "pom.xml" }}
+          # fallback to using the latest cache if no exact match is found
+          -
 
       - run: mvn dependency:go-offline
 
