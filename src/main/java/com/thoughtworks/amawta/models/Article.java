@@ -9,7 +9,7 @@ public class Article {
 	@Id
 	@GeneratedValue
 	private Long id;
-	@NotNull
+	@NotNull(message = "Titulo no puede ser nulo")
 	private String title;
 
 	@ManyToOne
@@ -18,6 +18,26 @@ public class Article {
 	@NotNull
 	private String body;
 	private Integer claps;
+
+	public Article(){}
+
+	public Article(final String title, final String body){
+		this.title		= title;
+		this.body		= body;
+	}
+
+	public Article(final String title, final Category category, final String body){
+		this.title		= title;
+		this.category	= category;
+		this.body		= body;
+	}
+
+	public Article(final Long id, final String title, final Category category, final String body){
+		this.id			= id;
+		this.title		= title;
+		this.category	= category;
+		this.body		= body;
+	}
 
 	public Long getId() {
 		return id;

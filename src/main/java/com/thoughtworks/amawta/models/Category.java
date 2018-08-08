@@ -11,10 +11,11 @@ public class Category {
 	@Id
 	@GeneratedValue
 	private Long id;
+	//TODO --> averiguar como hacer mejor esto..I18N
 	@NotNull(message = "Nombre no puede ser nulo")
 	private String name;
 
-	@OneToMany(mappedBy = "category")
+	@OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE)
 	private List<Article> articles;
 
 	public Category(){}

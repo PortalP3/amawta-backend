@@ -44,7 +44,7 @@ public class CategoriesController {
 	}
 
 	@PutMapping(CATEGORIES+"/{id}")
-	public ResponseEntity<Category> update(@PathVariable("id") Long id, @RequestBody  @Valid Category category){
+	public ResponseEntity<Category> update(@PathVariable("id") Long id, @RequestBody @Valid Category category){
 		Optional<Category> currentCategory = repository.findById(id);
 		if(currentCategory.isPresent()){
 			category.setId(id);

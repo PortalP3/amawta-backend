@@ -1,23 +1,28 @@
 package com.thoughtworks.amawta.controllers;
 
 import com.thoughtworks.amawta.models.Article;
+import com.thoughtworks.amawta.models.Category;
 import com.thoughtworks.amawta.repositories.ArticleRepository;
+import com.thoughtworks.amawta.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
 public class ArticlesController{
 
-	private static final String ARTICLES = "/articles";
+	public static final String ARTICLES = "/articles";
 	private ArticleRepository repository;
+	private CategoryRepository categoryRepository;
 
 	@Autowired
-	public ArticlesController(ArticleRepository repository){
+	public ArticlesController(ArticleRepository repository, CategoryRepository categoryRepository){
 		this.repository = repository;
+		this.categoryRepository = categoryRepository;
 	}
 
 	@GetMapping(ARTICLES)
@@ -35,17 +40,25 @@ public class ArticlesController{
 		}
 	}
 
-	@PostMapping(ARTICLES)
-	public ResponseEntity<Article> create(@RequestBody Article article){
-		repository.save(article);
-		return new ResponseEntity<>(article, HttpStatus.CREATED);
+	@PostMapping(CategoriesController.CATEGORIES+"/{categoryId}"+ARTICLES)
+	public ResponseEntity<Article> create(@RequestBody @Valid Article article, @PathVariable("categoryId") Long categoryId){
+		Optional<Category> category = categoryRepository.findById(categoryId);
+		if (category.isPresent()){
+			article.setCategory(category.get());
+			repository.save(article);
+			return new ResponseEntity<>(article, HttpStatus.CREATED);
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
 	}
 
-	@PutMapping(ARTICLES+"/{id}")
-	public ResponseEntity<Article> update(@PathVariable("id") Long id, @RequestBody Article article){
+	@PutMapping(CategoriesController.CATEGORIES+"/{categoryId}"+ARTICLES+"/{id}")
+	public ResponseEntity<Article> update(@PathVariable("id") Long id, @PathVariable("categoryId") Long categoryId, @RequestBody Article article){
+		Optional<Category> currentCategory = categoryRepository.findById(categoryId);
 		Optional<Article> currentArticle = repository.findById(id);
-		if(currentArticle.isPresent()){
+		if(currentArticle.isPresent() && currentCategory.isPresent()){
 			article.setId(id);
+			article.setCategory(currentCategory.get());
 			repository.save(article);
 			return new ResponseEntity<>(article, HttpStatus.OK);
 		}else {

@@ -4,7 +4,6 @@ package com.thoughworks.amawta.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thoughtworks.amawta.WebApplication;
 import com.thoughtworks.amawta.controllers.CategoriesController;
-import com.thoughtworks.amawta.controllers.ErrorDetail;
 import com.thoughtworks.amawta.models.Category;
 import com.thoughtworks.amawta.repositories.CategoryRepository;
 import org.junit.Before;
