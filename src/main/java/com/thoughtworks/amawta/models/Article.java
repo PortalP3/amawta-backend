@@ -15,8 +15,11 @@ public class Article {
 	@ManyToOne
 	@JoinColumn(name="category_id", nullable=false)
 	private Category category;
+
 	@NotNull
+	@Column(name = "LONG_TEXT", columnDefinition="TEXT")
 	private String body;
+
 	private Integer claps;
 
 	public Article(){}

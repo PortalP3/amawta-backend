@@ -1,6 +1,5 @@
 package com.thoughtworks.amawta.exceptions;
 
-import com.thoughtworks.amawta.controllers.ErrorDetail;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

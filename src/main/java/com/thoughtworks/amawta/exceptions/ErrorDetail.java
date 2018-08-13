@@ -1,4 +1,4 @@
-package com.thoughtworks.amawta.controllers;
+package com.thoughtworks.amawta.exceptions;
 
 
 import java.util.Date;
