@@ -1,7 +1,10 @@
 package com.thoughtworks.amawta.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Entity
 @Table(name = "articles")
@@ -18,6 +21,15 @@ public class Article {
 	@NotNull
 	private String body;
 	private Integer claps;
+
+	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	@JoinTable(
+			name = "article_rate",
+			joinColumns = { @JoinColumn(name = "rate_id", referencedColumnName = "id") },
+			inverseJoinColumns = { @JoinColumn(name = "article_id")}
+	)
+	@JsonIgnore
+	private Set<Rate> rates;
 
 	public Article(){}
 
@@ -78,4 +90,13 @@ public class Article {
 	public void setClaps(Integer claps) {
 		this.claps = claps;
 	}
+
+	public Set<Rate> getRates() {
+		return rates;
+	}
+
+	public void setRates(Set<Rate> rates) {
+		this.rates = rates;
+	}
+
 }
