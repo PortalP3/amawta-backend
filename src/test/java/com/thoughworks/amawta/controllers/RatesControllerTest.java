@@ -22,7 +22,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.thoughtworks.amawta.controllers.RatesController.RATES;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -58,6 +58,13 @@ public class RatesControllerTest {
 	}
 
 	@Test
+	public void shouldReturnTheListOfRates() throws Exception {
+		rateRepository.save(validRate);
+		this.mockMvc.perform(get(RatesController.RATES)).andExpect(status().isOk())
+				.andExpect(content().json(mapper.writeValueAsString(rateRepository.findAll())));
+	}
+
+	@Test
 	public void shouldReturnTheCreatedRate() throws Exception {
 
 		this.mockMvc.perform(post(RATES)
@@ -72,6 +79,27 @@ public class RatesControllerTest {
 		this.mockMvc.perform(post(ArticlesController.ARTICLES+"/"+validArticle.getId()+RATES+"/"+validRate.getId()+"/add")
 				.contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsBytes(validRate)))
 				.andExpect(status().isCreated());
+	}
+
+	@Test
+	public void shouldReturnTheUpdatedRate() throws Exception {
+		final Integer newQtt = 2;
+		Rate updatedRate = new Rate(newQtt);
+		rateRepository.save(validRate);
+		validRate.setQtt(newQtt);
+		this.mockMvc.perform(put(RATES+"/"+validRate.getId())
+				.contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsBytes(updatedRate)))
+				.andExpect(content().json(mapper.writeValueAsString(validRate)));
+	}
+
+	@Test
+	public void shouldReturnTheStateForDeletion() throws Exception {
+		Rate savedRate 	= rateRepository.save(validRate);
+		this.mockMvc.perform(delete(RatesController.RATES+"/"+savedRate.getId()).contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
+
+		this.mockMvc.perform(delete(RatesController.RATES+"/-1").contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isNotFound());
 	}
 
 }
